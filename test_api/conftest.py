@@ -1,21 +1,13 @@
-import keyring
-import pytest
-import getpass
-
-from enum import auto
-import os
+import pytest, configparser, keyring, getpass
 from typing import Generator
+from playwright.sync_api import Playwright, APIRequestContext
 
-from playwright.sync_api import Playwright, Page, APIRequestContext, expect
-
-
-import configparser
 params = configparser.ConfigParser()
 params.read('params.ini', encoding='utf-8')
 
 # サイトのログイン情報のキー
-KEYRING_SERVICE = "bashaway.atlassian.net"
-KEYRING_USER = "CF_SERVICE_ACCOUNT_RW_BASE64"
+KEYRING_SERVICE = params['DEFAULT']['keyring_service_api']
+KEYRING_USER = params['DEFAULT']['keyring_user_api']
 
 """
 削除するには
@@ -61,3 +53,10 @@ def api_request_context(
 #    # After all
 #    deleted_repo = api_request_context.delete(f"/repos/{GITHUB_USER}/{GITHUB_REPO}")
 #    assert deleted_repo.ok
+
+@pytest.fixture(scope="function")
+def params():
+    params = configparser.ConfigParser()
+    params.read('params.ini', encoding='utf-8')
+    yield params
+

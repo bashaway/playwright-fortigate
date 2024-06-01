@@ -1,9 +1,6 @@
-import getpass
-import keyring
-import pytest
+import pytest, configparser, keyring, getpass
 from playwright.sync_api import sync_playwright, Page, expect
 
-import configparser
 params = configparser.ConfigParser()
 params.read('params.ini', encoding='utf-8')
 

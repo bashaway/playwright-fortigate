@@ -6,12 +6,13 @@ from typing import Generator
 import pytest
 from playwright.sync_api import Playwright, Page, APIRequestContext, expect
 
-class TestObject:
+class TestPage:
 
-    def test_get_pages(self, api_request_context: APIRequestContext) -> None:
-        page_title="NEW PAGE"
-        page_body="<p>API経由で作成したのですよ！</p>"
-        page_parent="59834418"
+    def test_get_pages(self, api_request_context: APIRequestContext, params) -> None:
+        # テストパラメータ設定
+        page_title=params['page']['item_title']
+        page_body=params['page']['item_body']
+        page_parent=params['page']['item_parent']
 
         # ページを作成
         data = {
